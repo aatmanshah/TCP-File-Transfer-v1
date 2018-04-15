@@ -33,7 +33,7 @@ int main (int argc, char *argv[])
 	FILE *instream;
 	int data_remaining = 0;
 
-	if (argc != 2)
+	if (argc != 4)
 	{
 		printf ("Usage: %s <ip of server> \n",argv[0]);
 		return 1;
