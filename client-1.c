@@ -70,7 +70,7 @@ int main (int argc, char *argv[])
 
 	//open file
 	char sdbuff[BUFF_SIZE];
-    printf("[Client] Sending to the Server... ", argv[2]);
+    printf("[Client] Sending to the Server... %s ", argv[2]);
 
 	instream = fopen(argv[2], "rb");   //binary read mode for fopen
     if(instream == NULL)
@@ -97,7 +97,7 @@ int main (int argc, char *argv[])
     }
 
     int send_block_size;
-    while((send_block_sz = fread(sdbuff, sizeof(char), BUFF_SIZE, instream)) > 0)
+    while((send_block_size = fread(sdbuff, sizeof(char), BUFF_SIZE, instream)) > 0)
     {
         if(send(sockfd, sdbuff, send_block_size, 0) < 0)
         {
