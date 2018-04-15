@@ -17,7 +17,7 @@
 #define BUFF_SIZE 10
 #define PORT 3500
 
-int fileno(const FILE *stream);
+//int fileno(const FILE *stream);
 
 int main (int, char *[]);
 
