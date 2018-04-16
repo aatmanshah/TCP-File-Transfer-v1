@@ -83,7 +83,7 @@ int main (int argc, char *argv[])
 
     //send file name
     int file_name_size;
-    while((file_name_size = read(sockfd, argv[4], 32) > 0))
+    while((file_name_size = read(sockfd, argv[4], sizeof(char)) > 0))
     {
         write (sockfd, buff, strlen (buff) + 1);
         /*
