@@ -52,7 +52,7 @@ int main (int argc, char *argv[])
 
 	// set address
 	serv_addr.sin_family = AF_INET;
-	serv_addr.sin_port = htons (argv[2]);
+	serv_addr.sin_port = htons (stoi(argv[2]));
 
 	if (inet_pton (AF_INET, argv[1], &serv_addr.sin_addr) <= 0)
 	{
