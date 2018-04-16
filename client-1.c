@@ -52,7 +52,7 @@ int main (int argc, char *argv[])
 
 	// set address
 	serv_addr.sin_family = AF_INET;
-	serv_addr.sin_port = htons (5000);
+	serv_addr.sin_port = htons (argv[2]);
 
 	if (inet_pton (AF_INET, argv[1], &serv_addr.sin_addr) <= 0)
 	{
@@ -70,9 +70,9 @@ int main (int argc, char *argv[])
 
 	//open file
 	char sdbuff[BUFF_SIZE];
-    printf("[Client] Sending to the Server... %s ", argv[2]);
+    printf("[Client] Sending to the Server... %s ", argv[3]);
 
-	instream = fopen(argv[2], "rb");   //binary read mode for fopen
+	instream = fopen(argv[3], "rb");   //binary read mode for fopen
     if(instream == NULL)
     {
         printf("open read file error.\n");
@@ -83,7 +83,7 @@ int main (int argc, char *argv[])
 
     //send file name
     int file_name_size;
-    while((file_name_size = read(sockfd, argv[2], 32) > 0))
+    while((file_name_size = read(sockfd, argv[4], 32) > 0))
     {
         write (sockfd, buff, strlen (buff) + 1);
         /*
@@ -106,7 +106,7 @@ int main (int argc, char *argv[])
         }
         bzero(sdbuff, BUFF_SIZE);
     }
-    printf("File %s from Client was sent successfully!\n", argv[2]);
+    printf("File %s from Client was sent successfully!\n", argv[3]);
 
 	while (scanf ("%s", buff) == 1)
 	{
