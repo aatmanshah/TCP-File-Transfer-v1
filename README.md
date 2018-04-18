@@ -4,7 +4,7 @@
 
 File transfer between client and server using TCP. Written in C.
 
-Files:
+
 
 **Server-1.c:** Usage: 
 
