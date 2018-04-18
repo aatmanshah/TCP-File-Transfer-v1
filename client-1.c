@@ -1,8 +1,3 @@
- /**************************
-	socket example, client
-	spring 2018
- **************************/
-
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
@@ -35,13 +30,15 @@ int main (int argc, char *argv[])
 
 	if (argc != 5)
 	{
-		printf ("Usage: %s <ip of server> \n",argv[0]);
+		printf ("Usage: %s <ip of server> <port #> <input file name> <output file name> \n",argv[0]);
 		return 1;
 	}
+
 
 	// set up
 	memset (buff, '0', sizeof (buff));
 	memset (&serv_addr, '0', sizeof (serv_addr));
+
 
 	// open socket
 	if ((sockfd = socket (AF_INET, SOCK_STREAM, 0)) < 0)
@@ -49,6 +46,7 @@ int main (int argc, char *argv[])
 		printf ("Error : Could not create socket \n");
 		return 1;
 	}
+
 
 	// set address
 	serv_addr.sin_family = AF_INET;
@@ -60,6 +58,7 @@ int main (int argc, char *argv[])
 		return 1;
 	}
 
+
 	// connect
 	if (connect (sockfd, (struct sockaddr *)&serv_addr, sizeof (serv_addr)) < 0)
 	{
@@ -70,8 +69,7 @@ int main (int argc, char *argv[])
 
 	//open file
 	char sdbuff[BUFF_SIZE];
-	perror("fail");
-    //printf("[Client] Sending to the Server... %s ", argv[3]);
+    printf("[Client] Sending to the Server... %s ", argv[3]);
 
 	instream = fopen(argv[3], "rb");   //binary read mode for fopen
     if(instream == NULL)
@@ -80,19 +78,13 @@ int main (int argc, char *argv[])
         return 0;
     }
 
-    //bzero(sdbuff, BUFF_SIZE);
 
     //send file name
     int file_name_size;
     write (sockfd, argv[4], strlen (argv[4]) + 1);
-        /*
-        if(send(sockfd, sdbuff, file_name_size, 0) < 0)
-        {
-            fprintf(stderr, "ERROR: Failed to send file name %s. (errno = %d)\n", argv[2], errno);
-            break;
-        }
-        */
 
+
+    //send file contents
     int send_block_size;
     while((send_block_size = fread(sdbuff, sizeof(char), BUFF_SIZE, instream)) > 0)
     {
@@ -105,17 +97,7 @@ int main (int argc, char *argv[])
     }
     printf("File %s from Client was sent successfully!\n", argv[3]);
 
-/*
-	while (scanf ("%s", buff) == 1)
-	{
-		write (sockfd, buff, strlen (buff) + 1);
-		read (sockfd, buff, sizeof (buff));
-		printf ("%s\n", buff);
-	}
-*/
-
-
+    //close connection
 	close (sockfd);
-
 	return 0;
 }

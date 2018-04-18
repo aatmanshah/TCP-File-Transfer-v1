@@ -1,8 +1,3 @@
- /**************************
- *     socket example, server
- *     spring 2018
- ***************************/
-
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -13,11 +8,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <ctype.h>
-//#define _POSIX_SOURCE
 #define BUFF_SIZE 10
 #define PORT 3500
-
-//int fileno(const FILE *stream);
 
 int main (int, char *[]);
 
@@ -50,30 +42,28 @@ int main (int argc, char *argv[])
 	listen (listenfd, 10);
 
 	// accept and interact
-	//while (1)
-	//{
-		connfd = accept (listenfd, (struct sockaddr*)NULL, NULL);
+    connfd = accept (listenfd, (struct sockaddr*)NULL, NULL);
 
-        //receive file name
-		read(connfd, buff, sizeof (buff));
+    // receive file name
+    read(connfd, buff, sizeof (buff));
 
-		//OPEN (CREATE) DESTINATION FILE
-		outstream = fopen(buff, "a+w");  //for fwrite
-        if (outstream == NULL)
-        {
-            printf("open dest file error.\n");
-            return 0;
-        }
+    // open (create) destination file
+    outstream = fopen(buff, "a+w");  //for fwrite
+    if (outstream == NULL)
+    {
+        printf("open dest file error.\n");
+        return 0;
+    }
 
-		//RECEIVE FILE DATA AND WRITE TO OUTPUT FILE
-		int i;
-		while((i = read (connfd, sdbuff, sizeof (sdbuff))) > 0)
-        {
-            fwrite(sdbuff, sizeof(char), i, outstream);
-        }
+    // receive file data and write to output file
+    int i;
+    while((i = read (connfd, sdbuff, sizeof (sdbuff))) > 0)
+    {
+        fwrite(sdbuff, sizeof(char), i, outstream);
+    }
 
-        fclose(outstream);
-		close (connfd);
-		return 0;
-	//}
+    // close file and connection
+    fclose(outstream);
+    close (connfd);
+    return 0;
 }
