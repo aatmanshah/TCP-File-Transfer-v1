@@ -70,7 +70,8 @@ int main (int argc, char *argv[])
 
 	//open file
 	char sdbuff[BUFF_SIZE];
-    printf("[Client] Sending to the Server... %s ", argv[3]);
+	perror("fail");
+    //printf("[Client] Sending to the Server... %s ", argv[3]);
 
 	instream = fopen(argv[3], "rb");   //binary read mode for fopen
     if(instream == NULL)
@@ -83,9 +84,7 @@ int main (int argc, char *argv[])
 
     //send file name
     int file_name_size;
-    while((file_name_size = read(sockfd, argv[4], sizeof(char)) > 0))
-    {
-        write (sockfd, buff, strlen (buff) + 1);
+    write (sockfd, argv[4], strlen (argv[4]) + 1);
         /*
         if(send(sockfd, sdbuff, file_name_size, 0) < 0)
         {
@@ -93,13 +92,11 @@ int main (int argc, char *argv[])
             break;
         }
         */
-        bzero(sdbuff, BUFF_SIZE);
-    }
 
     int send_block_size;
     while((send_block_size = fread(sdbuff, sizeof(char), BUFF_SIZE, instream)) > 0)
     {
-        if(send(sockfd, sdbuff, send_block_size, 0) < 0)
+        if(write(sockfd, sdbuff, send_block_size) < 0)
         {
             fprintf(stderr, "ERROR: Failed to send file %s. (errno = %d)\n", argv[2], errno);
             break;
@@ -108,13 +105,14 @@ int main (int argc, char *argv[])
     }
     printf("File %s from Client was sent successfully!\n", argv[3]);
 
+/*
 	while (scanf ("%s", buff) == 1)
 	{
 		write (sockfd, buff, strlen (buff) + 1);
 		read (sockfd, buff, sizeof (buff));
 		printf ("%s\n", buff);
 	}
-
+*/
 
 
 	close (sockfd);

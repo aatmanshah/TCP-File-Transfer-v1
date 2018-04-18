@@ -13,7 +13,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <ctype.h>
-#define _POSIX_SOURCE
+//#define _POSIX_SOURCE
 #define BUFF_SIZE 10
 #define PORT 3500
 
@@ -55,12 +55,8 @@ int main (int argc, char *argv[])
 		connfd = accept (listenfd, (struct sockaddr*)NULL, NULL);
 
 		// receive data and reply
-		while ((n = read (connfd, buff, sizeof (buff))) > 0)
-		{
 		    //receive file name
-		    size_t destination_size = sizeof(buff);
-
-		    strncpy(filename, buff, destination_size);
+		read(connfd, buff, sizeof (buff));
 		    /*
 			// change lower to upper case
 			p = buff;
@@ -72,10 +68,9 @@ int main (int argc, char *argv[])
 
 			write (connfd, buff, p - buff + 1);
 			*/
-		}
 
 		//OPEN (CREATE) DESTINATION FILE
-		outstream = fopen(filename, "a+w");  //for fwrite
+		outstream = fopen(buff, "a+w");  //for fwrite
         if (outstream == NULL)
         {
             printf("open dest file error.\n");
@@ -86,10 +81,11 @@ int main (int argc, char *argv[])
 		int i;
 		while((i = read (connfd, sdbuff, sizeof (sdbuff))) > 0)
         {
-            write(fileno(outstream), sdbuff, sizeof(sdbuff) + 1);
+            fwrite(sdbuff, sizeof(char), i, outstream);
         }
 
         fclose(outstream);
 		close (connfd);
+		return 0;
 	}
 }
