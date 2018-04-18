@@ -50,24 +50,12 @@ int main (int argc, char *argv[])
 	listen (listenfd, 10);
 
 	// accept and interact
-	while (1)
-	{
+	//while (1)
+	//{
 		connfd = accept (listenfd, (struct sockaddr*)NULL, NULL);
 
-		// receive data and reply
-		    //receive file name
+        //receive file name
 		read(connfd, buff, sizeof (buff));
-		    /*
-			// change lower to upper case
-			p = buff;
-			while (*p != '\0')
-			{
-				*p = toupper (*p);
-				p++;
-			}
-
-			write (connfd, buff, p - buff + 1);
-			*/
 
 		//OPEN (CREATE) DESTINATION FILE
 		outstream = fopen(buff, "a+w");  //for fwrite
@@ -87,5 +75,5 @@ int main (int argc, char *argv[])
         fclose(outstream);
 		close (connfd);
 		return 0;
-	}
+	//}
 }
