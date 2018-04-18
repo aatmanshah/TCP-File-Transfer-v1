@@ -69,7 +69,7 @@ int main (int argc, char *argv[])
 
 	//open file
 	char sdbuff[BUFF_SIZE];
-    printf("[Client] Sending to the Server... %s ", argv[3]);
+    printf("[Client] Sending to the Server... %s \n", argv[3]);
 
 	instream = fopen(argv[3], "rb");   //binary read mode for fopen
     if(instream == NULL)
